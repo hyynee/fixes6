@@ -70,7 +70,9 @@ window.Sua = function (id) {
   document.querySelector("#btnClick").click();
   document.getElementById("id").disabled = true;
   document.getElementById("btnAdd").disabled = true;
-  document.getElementById("btnReset").disabled = "false";
+  // document.getElementById("btnReset").disabled = "false";
+  document.getElementById("btnReset").removeAttribute("disabled");
+  document.getElementById("btnUpdate").removeAttribute("disabled");
   let sua = list.Sua(id);
   var arrInput = document.querySelectorAll(
     ".modal-body select , .modal-body input"
@@ -94,14 +96,35 @@ window.Sua = function (id) {
     }
   }
 };
+console.log(list.ListPerson)
 document.querySelector("#btnUpdate").onclick = function () {
-  document.getElementById("id").disabled = "flase";
-  document.getElementById("btnAdd").disabled = "flase";
+  document.getElementById("id").disabled = false;
+  document.getElementById("btnAdd").disabled = false;
+  const arrInput = Array.from(document.querySelectorAll(".modal-body input"));
+  const regencySelect = document.getElementById("typeForm");
+  const id = document.querySelector("#id").value;
+  const personEdit = list.ListPerson.find((element) => element.id === id);
+  for (const property in personEdit) {
+    const index = arrInput.findIndex((element) => {
+      return (element.id === property);
+    });
+    if (index !== -1) {
+      personEdit[property] = arrInput[index].value;
+    }
+  }
+  personEdit.regency = regencySelect.value
+  console.log(personEdit)
 
-  resetForm();
+  list.renderTable("#tBodylist");
+  list.luuLocalStorage();
+};
+
+document.getElementById("btnClick").onclick = function () {
+  document.getElementById("btnUpdate").disabled = "flase";
 };
 document.getElementById("btnReset").onclick = function () {
   resetForm();
+  document.getElementById("btnAdd").removeAttribute("disabled");
 };
 document.getElementById("Close").onclick = function () {
   document.getElementById("btnAdd").removeAttribute("disabled");
@@ -131,15 +154,16 @@ document.getElementById("Close").onclick = function () {
 document.querySelector("#searchRegency").onchange = (event) => {
   if (event.target.value === "all") {
     list.renderTable("#tBodylist");
+    console.log(list);
     return;
   }
   const filterList = list.ListPerson.filter((element) => {
     return element.regency === event.target.value;
   });
   list.renderTable("#tBodylist", filterList);
+  // luôn luôn có 1 giá trị mặc định để render ra
+  // khi nào có sự thay đổi thì ms dùng cái mảng mới để làm và render ra mảng mới đó vs tham số của mảng mới truyền vào
 };
-
-
 document.querySelector("#typeForm").onchange = (event) => {
   const student = [
     "name",
@@ -174,7 +198,6 @@ document.querySelector("#typeForm").onchange = (event) => {
         for (let inputRender of student) {
           if (element.id === inputRender) {
             element.style.display = "block";
-            console.log(element.id);
             break;
           }
           element.style.display = "none";
@@ -186,7 +209,6 @@ document.querySelector("#typeForm").onchange = (event) => {
         for (let emrender of employee) {
           if (element.id === emrender) {
             element.style.display = "block";
-            console.log(element);
             break;
           }
           element.style.display = "none";

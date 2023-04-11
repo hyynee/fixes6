@@ -46,6 +46,7 @@ export class List {
   }
   //lay
   layLocalStorage(table) {
+    // debugger
     let listLoccal;
     if (localStorage.getItem("DS")) {
       listLoccal = JSON.parse(localStorage.getItem("DS") || []);
