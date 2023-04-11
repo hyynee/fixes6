@@ -19,17 +19,17 @@ document.getElementById("btnAdd").onclick = function () {
   let person;
   if (tagSelectValue === "Student") {
     person = new Student();
-    if (!validStudent()) {
+    if (!validPerson() & !validStudent()) {
       return;
     }
   } else if (tagSelectValue === "Employee") {
     person = new Employee();
-    if (!validEmployee()) {
+    if (!validPerson() & !validEmployee()) {
       return;
     }
   } else if (tagSelectValue === "Customer") {
     person = new Customer();
-    if (!validCustomer()) {
+    if (!validPerson() & !validCustomer()) {
       return;
     }
   } else {
@@ -70,6 +70,9 @@ window.Sua = function (id) {
   document.querySelector("#btnClick").click();
   document.getElementById("id").disabled = true;
   document.getElementById("btnAdd").disabled = true;
+  if (!validPerson() & !validCustomer() & !validEmployee() & !validStudent()) {
+    return;
+  }
   // document.getElementById("btnReset").disabled = "false";
   document.getElementById("btnReset").removeAttribute("disabled");
   document.getElementById("btnUpdate").removeAttribute("disabled");
@@ -96,25 +99,27 @@ window.Sua = function (id) {
     }
   }
 };
-console.log(list.ListPerson)
+console.log(list.ListPerson);
 document.querySelector("#btnUpdate").onclick = function () {
   document.getElementById("id").disabled = false;
   document.getElementById("btnAdd").disabled = false;
+  if (!validPerson() & !validCustomer() & !validEmployee() & !validStudent()) {
+    return;
+  }
   const arrInput = Array.from(document.querySelectorAll(".modal-body input"));
   const regencySelect = document.getElementById("typeForm");
   const id = document.querySelector("#id").value;
   const personEdit = list.ListPerson.find((element) => element.id === id);
   for (const property in personEdit) {
     const index = arrInput.findIndex((element) => {
-      return (element.id === property);
+      return element.id === property;
     });
     if (index !== -1) {
       personEdit[property] = arrInput[index].value;
     }
   }
-  personEdit.regency = regencySelect.value
-  console.log(personEdit)
-
+  personEdit.regency = regencySelect.value;
+  console.log(personEdit);
   list.renderTable("#tBodylist");
   list.luuLocalStorage();
 };
