@@ -50,7 +50,7 @@ export class List {
     }
     const arrPerSon = this.ListPerson; // tham chieu : có thể gán giá trị làm thay đổi được 
     // arrPerSon[0].name = 'Huy'
-    console.log(this.ListPerson)
+    // console.log(this.ListPerson)
     if(!arrPerSon) return;
     const Check = arrPerSon.map((element) => {
       if(element.regency === 'Student') {
@@ -69,7 +69,7 @@ export class List {
         return cus;
       }
     })
-    console.log(Check) // dựa trên mảng cũ của ListPerSon nhưng đã tạo thành 1 mảng mới và 2 mảng này tách biệt nhau
+    // console.log(Check) // dựa trên mảng cũ của ListPerSon nhưng đã tạo thành 1 mảng mới và 2 mảng này tách biệt nhau
     this.ListPerson = [...Check]; // gán giá trị mới cho mảng cũ và render ra theo giá trị mới
     this.renderTable(table)
   }
