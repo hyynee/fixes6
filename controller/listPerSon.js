@@ -100,9 +100,6 @@ console.log(list.ListPerson);
 document.querySelector("#btnUpdate").onclick = function () {
   document.getElementById("id").disabled = false;
   document.getElementById("btnAdd").disabled = false;
-  if (!validPerson() & !validCustomer() & !validEmployee() & !validStudent()) {
-    return;
-  }
   const arrInput = Array.from(document.querySelectorAll(".modal-body input"));
   const regencySelect = document.getElementById("typeForm");
   const id = document.querySelector("#id").value;
