@@ -1,0 +1,145 @@
+// function renderTable(selectorTbody) {
+//   let html = "";
+//   for (let person of listPerson) {
+//     var tagSelect = document.getElementById("typeForm");
+//     var viTriTheChon = tagSelect.selectedIndex;
+//     var regency = tagSelect.options[viTriTheChon].innerHTML;
+//     person.regency = regency;
+//     html += `
+//     <tr>
+//     <td>${person.id}</td>
+//     <td>${person.regency || ""}</td>
+//     <td>${person.name}</td>
+//     <td>${person.address}</td>
+//     <td>${person.email}</td>
+//     <td>${person.average ? person.average() : ""}</td>
+//     <td>${person.total ? person.total() : ""}</td>
+//     <td>${person.nameCompany || ""}</td>
+//     <td>${person.invoiceValue || ""}</td>
+//     <td>${person.review || ""}</td>
+//     <td>
+//       <button class="btn btn-success my-1" data-toggle="modal" data-target="#personModal" onclick="Sua(
+//                  '${person.id}'
+//                )">Update</button>
+//       <button class="btn btn-danger my-1" onclick="deletePerSon('${
+//         person.id
+//       }')">Delete</button>
+//       </td>
+
+//     </tr>
+//     `;
+//   }
+//   document.querySelector(selectorTbody).innerHTML = html;
+//   // hàm là dùng toán tử ba ngôi
+//   // kiểm tra giá trị là dùng 2 ngôi
+// }
+
+
+
+khai báo static : phương thức tỉnh không cần new vẫn sử dụng thẳng được
+còn nếu new thì ra mảng rỗng
+
+
+
+export class List {
+  ListPerson = [];
+  themdanhsach(person) {
+    this.ListPerson.push(person);
+  }
+  renderTable(selectorTbody) {
+    let html = "";
+    for (let person of this.ListPerson) {
+      html += `
+      <tr>
+      <td>${person.id}</td>
+      <td>${person.regency || ""}</td>
+      <td>${person.name}</td>
+      <td>${person.address}</td>
+      <td>${person.email}</td>
+      <td>${person.average ? person.average() : ""}</td>
+      <td>${person.total ? person.total() : ""}</td>
+      <td>${person.nameCompany || ""}</td>
+      <td>${person.invoiceValue || ""}</td>
+      <td>${person.review || ""}</td>
+      <td>
+        <button class="btn btn-success my-1" data-toggle="modal" data-target="#personModal" onclick="Sua(
+                   '${person.id}'
+                 )">Fixes</button>
+        <button class="btn btn-danger my-1" onclick="deletePerSon('${
+          person.id
+        }')">Delete</button>
+        </td>
+      </tr>
+      `;
+    }
+    document.querySelector(selectorTbody).innerHTML = html;
+    // hàm là dùng toán tử ba ngôi
+    // kiểm tra giá trị là dùng 2 ngôi
+    // 1 hàm làm 1 nhiệm vụ
+  }
+  //luu
+  luuLocalStorage() {
+    let stringDS = JSON.stringify(this.ListPerson);
+    localStorage.setItem("DS", stringDS);
+  }
+  //lay
+  layLocalStorage() {
+    if (localStorage.getItem("DS")) {
+      let stringDS = localStorage.getItem("DS");
+      this.ListPerson = JSON.parse(stringDS);
+    }
+  }
+
+  //xoa
+  xoaPerSon(id) {
+    for (let index in this.ListPerson) {
+      if (this.ListPerson[index].id === id) {
+        this.ListPerson.splice(index, 1);
+        break;
+      }
+    }
+  }
+  // Sửa
+  Sua(id) {
+    for (let person of this.ListPerson) {
+      if (person.id === id) {
+        return person;
+      }
+    }
+    return undefined;
+  }
+}
+
+// Hàm reset
+export function resetForm() {
+  document.querySelector("#typeForm").value = "Chọn loại người dùng";
+  document.querySelector("#name").value = "";
+  document.querySelector("#address").value = "";
+  document.querySelector("#email").value = "";
+  document.querySelector("#id").value = "";
+
+  document.querySelector("#math").value = "";
+  document.querySelector("#physics").value = "";
+  document.querySelector("#chemistry").value = "";
+
+  document.querySelector("#dayOfWork").value = "";
+  document.querySelector("#salaryOneDay").value = "";
+  document.querySelector("#nameCompany").value = "";
+
+  document.querySelector("#invoiceValue").value = "";
+  document.querySelector("#review").value = "";
+}
+
+
+
+    if(!arrPS) return;
+    const Check = arrPS.map((element) => {
+      if(element.regency === 'Student') {
+        const person =  new Student();
+        Object.assign(person,element)
+        return person;
+      }
+      console.log(person);
+      console.log(element)
+    })
+    table.innerHTML = this.renderTable(Check);

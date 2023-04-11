@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>bài chính</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <!-- FontAwesome 6.2.0 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!--CSS-->
+    <!-- <link rel="stylesheet" href="./css/index.css" /> -->
+  </head>
+
+  <body id="body">
+    <section class="manage mt-5 p-4" style="background: #60679b">
+      <div class="container">
+        <div class="d-flex">
+          <h3 class="text-light col-6">Danh Sách Quản Lý</h3>
+          <select class="col-3" id="searchRegency">
+            <option selected value="all">Tất cả</option>
+            <option value="sinh viên">Sinh Viên</option>
+            <option value="nhân viên">Nhân Viên</option>
+            <option value="khách hàng">Khách Hàng</option>
+          </select>
+
+          <!-- Button trigger modal -->
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+            id="btnClick"
+          >
+            +Add Person
+          </button>
+
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="staticBackdrop"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                    Danh Sách
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body table">
+                  <form id="managementForm">
+                    <div class="pForm__item form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fa-solid fa-list"></i>
+                          </span>
+                        </div>
+                        <select class="form-control" id="typeForm">
+                          <!-- onchange="chooseType()" -->
+                          <option selected="" value="Chọn loại người dùng">
+                            Chọn loại người dùng
+                          </option>
+                          <option value="Student">sinh viên</option>
+                          <option value="Employee">nhân viên</option>
+                          <option value="Customer">khách hàng</option>
+                        </select>
+                      </div>
+                      <span class="pForm_noti" id="notiType"></span>
+                    </div>
+                    <div class="pForm__item form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fa-solid fa-person"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="name"
+                          placeholder="Họ và Tên"
+                        />
+                      </div>
+                      <span class="pForm_noti" id="notiName"></span>
+                    </div>
+                    <div class="pForm__item form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fa-solid fa-house-circle-check"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="address"
+                          placeholder="Address"
+                        />
+                      </div>
+                      <span class="pForm_noti" id="notiAddress"></span>
+                    </div>
+                    <div class="pForm__item form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fa-regular fa-address-card"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="number"
+                          class="form-control"
+                          onclick=""
+                          id="id"
+                          placeholder="ID"
+                        />
+                      </div>
+                      <span class="pForm_noti" id="notiID"></span>
+                    </div>
+                    <div class="pForm__item form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fa-solid fa-envelope"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="email"
+                          placeholder="Email"
+                        />
+                      </div>
+                      <span class="pForm_noti" id="notiEmail"></span>
+                    </div>
+                    <!-- student -->
+                    <div class="studentForm">
+                      <div class="pForm__item form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fa-solid fa-calculator"></i>
+                            </span>
+                          </div>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="math"
+                            placeholder="Toán"
+                          />
+                        </div>
+                        <span class="pForm_noti" id="notiMath"></span>
+                      </div>
+                      <div class="pForm__item form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fa fa-vial"></i>
+                            </span>
+                          </div>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="chemistry"
+                            placeholder="Hoá"
+                          />
+                        </div>
+                        <span class="pForm_noti" id="notiChemistry"></span>
+                      </div>
+                      <div class="pForm__item form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fa-solid fa-atom"></i>
+                            </span>
+                          </div>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="physics"
+                            placeholder="Lý"
+                          />
+                        </div>
+                        <span class="pForm_noti" id="notiPhysics"></span>
+                      </div>
+                    </div>
+                    <!-- employee -->
+                    <div class="employeeForm">
+                      <div class="pForm__item form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fa-solid fa-calendar-days"></i>
+                            </span>
+                          </div>
+                          <input
+                            type="number"
+                            class="form-control"
+                            id="dayOfWork"
+                            placeholder="Số ngày làm việc"
+                          />
+                        </div>
+                        <span class="pForm_noti" id="notiDayOfWork"></span>
+                      </div>
+                      <div class="pForm__item form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fa-solid fa-coins"></i>
+                            </span>
+                          </div>
+                          <input
+                            type="number"
+                            class="form-control"
+                            id="salaryOneDay"
+                            placeholder="lương / 1 ngày"
+                          />
+                        </div>
+                        <span class="pForm_noti" id="notiSalaryOneDay"></span>
+                      </div>
+                    </div>
+                    <!-- Customer -->
+                    <div class="customerForm">
+                      <div class="pForm__item form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fa-solid fa-building"></i>
+                            </span>
+                          </div>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="nameCompany"
+                            placeholder="tên doanh nghiệp"
+                          />
+                        </div>
+                        <span class="pForm_noti" id="notiNameCompany"></span>
+                      </div>
+                      <div class="pForm__item form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fa-solid fa-comment-dots"></i>
+                            </span>
+                          </div>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="review"
+                            placeholder="đánh giá"
+                          />
+                        </div>
+                        <span class="pForm_noti" id="notiReview"></span>
+                      </div>
+                      <div class="pForm__item form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fa-solid fa-coins"></i>
+                            </span>
+                          </div>
+                          <input
+                            type="number"
+                            class="form-control"
+                            id="invoiceValue"
+                            placeholder="giá trị hoá đơn"
+                          />
+                        </div>
+                        <span class="pForm_noti" id="notiInvoiceValue"></span>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    data-bs-dismiss=""
+                    id="btnAdd"
+                  >
+                    Add
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    data-bs-dismiss=""
+                    id="btnUpdate"
+                  >
+                    Update
+                  </button>
+                  <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss=""
+                  id="btnReset"
+                >
+                  Reset Form
+                </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    id="Close"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="inTable">
+      <div class="manage__table">
+        <table class="table" id="adminTable">
+          <thead class="thead-light">
+            <tr>
+              <th>ID</th>
+              <th>Regency</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Email</th>
+              <th>Average Score</th>
+              <th>Total Salary</th>
+              <th>Company Name</th>
+              <th>Invoice Value</th>
+              <th>Review</th>
+              <th class="student-table d-none" id="thMath">Toán</th>
+              <th class="student-table d-none" id="thPhysics">Lý</th>
+              <th class="student-table d-none" id="thChemistry">Hóa</th>
+              <th class="student-table d-none" id="thMediumScore">Điểm TB</th>
+              <th class="employee-table d-none">Date of work</th>
+              <th class="employee-table d-none">salaryOneDay</th>
+              <th class="employee-table d-none" id="thSumSalary">Tổng lương</th>
+              <th class="customer-table d-none" id="thNameCompany">
+                Tên công ty
+              </th>
+              <th class="customer-table d-none" id="thInvoiceValue">Hóa đơn</th>
+              <th class="customer-table d-none" id="thReview">Đánh giá</th>
+              <th><i class="fa-solid fa-gear"></i> Action</th>
+            </tr>
+          </thead>
+          <tbody id="tBodylist"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Modal -->
+    <style>
+      i {
+        font-size: 24px;
+      }
+    </style>
+
+    <style>
+      .modal-body select,
+      .modal-body input {
+        background-color: orange !important;
+      }
+    </style>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+      integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"
+      integrity="sha512-LUKzDoJKOLqnxGWWIBM4lzRBlxcva2ZTztO8bTcWPmDSpkErWx0bSP4pdsjNH8kiHAUPaT06UXcb+vOEZH+HpQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script type="module" src="./controller/listPerSon.js"></script>
+    </script>
+    
+    <script type="module" src="./model/onChange.js"></script>
+  </body>
+</html>
