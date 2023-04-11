@@ -52,23 +52,37 @@ window.deletePerSon = function (id) {
 
 window.Sua = function(id) {
   document.querySelector("#btnClick").click();
-  document.getElementById("id").disabled = "true";
-  document.getElementById("btnAdd").disabled = "true";
+  document.getElementById("id").disabled = true;
+  document.getElementById("btnAdd").disabled = true;
   let sua = list.Sua(id);
-    var arrInput = document.querySelectorAll(".modal-body select , .modal-body input");
-    for (let input of arrInput) {
-      let {id} = input;
-      input.value = sua[id];
-      console.log(input.value)
-    }
-}
+  var arrInput = document.querySelectorAll(".modal-body select , .modal-body input");
 
+  Object.keys(sua).forEach(key => {
+    const input = document.getElementById(key);
+    if (input) { // Kiểm tra xem có phần tử HTML tương ứng hay không
+      input.value = sua[key]; 
+    }
+  });
+
+  // Lấy giá trị của thuộc tính "regency"
+  const regency = sua.regency;
+
+  // Tìm vị trí của option có giá trị bằng với "regency"
+  const select = document.getElementById("typeForm");
+  const options = select.options;
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].value === regency) {
+      select.selectedIndex = i;
+      break;
+    }
+  }
+}
 
 document.getElementById("btnReset").onclick = function () {
   resetForm();
 };
 
-document.getElementById('Close').onclick = function() {
+document.getElementById("Close").onclick = function () {
   document.getElementById("btnAdd").removeAttribute("disabled");
   document.getElementById("id").removeAttribute("disabled");
   resetForm();
@@ -76,4 +90,4 @@ document.getElementById('Close').onclick = function() {
   input.forEach((element) => {
     element.style.display = " block";
   });
-}
+};
