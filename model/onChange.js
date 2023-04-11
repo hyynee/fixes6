@@ -1,38 +1,34 @@
 import { List } from "./List.js";
 
-// document.querySelector("#searchRegency").onchange = (event) => {
-//   const LIST = JSON.parse(localStorage.getItem("DS"));
-//   console.log(LIST);
-//   const newList = new List(); // rỗng
-//   newList.ListPerson = LIST;
-//   if (event.target.value !== "all") {
-//     const personRegency = LIST.filter(
-//       (person) => person.regency == event.target.value
-//     );
-//     console.log(personRegency);
-//     newList.ListPerson = personRegency;
-//   }
-//   switch (event.target.value) {
-//     case "sinh viên":
-
-//       break;
-//     case "nhân viên":
-
-//       break;
-//     case "khách hàng":
-
-//       break;
-//     default:
-//       newList.renderTable("#tBodylist");
-//       break;
-//   }
-// };
-
-// Hàm tìm kiếm theo đơn vị
-document.querySelector("#searchRegency").onchange = (event) => {
-  // Lấy danh sách người dùng từ LocalStorage
+/* document.querySelector("#searchRegency").onchange = (event) => {
   const LIST = JSON.parse(localStorage.getItem("DS"));
-  // Tạo các đối tượng List mới cho từng trường hợp
+  console.log(LIST);
+  const newList = new List(); // rỗng
+  newList.ListPerson = LIST;
+  if (event.target.value !== "all") {
+    const personRegency = LIST.filter(
+      (person) => person.regency == event.target.value
+    );
+    newList.ListPerson = personRegency;
+  }
+  switch (event.target.value) {
+    case "sinh viên":
+      break;
+    case "nhân viên":
+      break;
+    case "khách hàng":
+      break;
+    default:
+      newList.renderTable("#tBodylist");
+      break;
+  }
+};
+*/
+
+document.querySelector("#searchRegency").onchange = (event) => {
+  const LIST = JSON.parse(localStorage.getItem("DS"));
+  console.log(LIST);
+  // Tạo các đối tượng List mới
   const newList = new List();
   const newStu = new List();
   const newEmp = new List();
@@ -41,31 +37,38 @@ document.querySelector("#searchRegency").onchange = (event) => {
   newStu.ListPerson = LIST;
   newEmp.ListPerson = LIST;
   newCus.ListPerson = LIST;
-  // Lọc danh sách theo đơn vị nếu giá trị được chọn không phải "all"
+  console.log(newStu.ListPerson);
+  // Lọc danh sách theo đơn vị (nếu giá trị được chọn khác "all") và lưu vào newList
   if (event.target.value !== "all") {
     const personRegency = LIST.filter(
-      (person) => person.regency === event.target.value
+      (person) => person.regency == event.target.value
     );
     newList.ListPerson = personRegency;
-    newStu.ListPerson = personRegency.filter(
-      (person) => person.type === "sinh viên"
-    );
-    newEmp.ListPerson = personRegency.filter(
-      (person) => person.type === "nhân viên"
-    );
-    newCus.ListPerson = personRegency.filter(
-      (person) => person.type === "khách hàng"
-    );
+    newStu.ListPerson = personRegency;
+    newEmp.ListPerson = personRegency;
+    newCus.ListPerson = personRegency;
   }
-  // Render bảng tương ứng với giá trị được chọn
+  // Lọc lại danh sách người dùng theo loại và lưu vào các đối tượng List tương ứng
+  newStu.ListPerson = newStu.ListPerson.filter(
+    (person) => person.type === "sinh viên"
+  );
+  console.log(newStu.regency);
+  newEmp.ListPerson = newEmp.ListPerson.filter(
+    (person) => person.type === "nhân viên"
+  );
+  newCus.ListPerson = newCus.ListPerson.filter(
+    (person) => person.type === "khách hàng"
+  );
+
+  // Render các bảng riêng biệt cho mỗi loại người dùng
   switch (event.target.value) {
-    case "Student":
+    case "sinh viên":
       newStu.renderTable("#tBodylist");
       break;
-    case "Employee":
+    case "nhân viên":
       newEmp.renderTable("#tBodylist");
       break;
-    case "Customer":
+    case "khách hàng":
       newCus.renderTable("#tBodylist");
       break;
     default:
@@ -73,6 +76,8 @@ document.querySelector("#searchRegency").onchange = (event) => {
       break;
   }
 };
+
+
 
 document.querySelector("#typeForm").onchange = (event) => {
   const student = [
