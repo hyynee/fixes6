@@ -20,14 +20,13 @@ document.querySelector("#searchRegency").onchange = (event) => {
 
       break;
     case "khách hàng":
-      
+
       break;
     default:
       newList.renderTable("#tBodylist");
       break;
   }
 };
-
 document.querySelector("#typeForm").onchange = (event) => {
   const student = [
     "name",

@@ -1,4 +1,4 @@
-import { Employee, Student } from "./PerSon.js";
+import { Customer, Employee, Student } from "./PerSon.js";
 
 export class List {
   ListPerson = [];
@@ -63,7 +63,7 @@ export class List {
         return emp;
       }
       if(element.regency === 'Customer') {
-        const cus = new Employee();
+        const cus = new Customer();
         Object.assign(cus,element)
         return cus;
       }
