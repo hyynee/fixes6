@@ -70,9 +70,6 @@ window.Sua = function (id) {
   document.querySelector("#btnClick").click();
   document.getElementById("id").disabled = true;
   document.getElementById("btnAdd").disabled = true;
-  if (!validPerson() & !validCustomer() & !validEmployee() & !validStudent()) {
-    return;
-  }
   // document.getElementById("btnReset").disabled = "false";
   document.getElementById("btnReset").removeAttribute("disabled");
   document.getElementById("btnUpdate").removeAttribute("disabled");
