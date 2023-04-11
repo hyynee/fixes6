@@ -2,12 +2,15 @@ import { Customer, Employee, Student } from "./PerSon.js";
 
 export class List {
   ListPerson = [];
+  Student = () => new Student();
+  Customer = () => new Customer();
+  Employee = () => new Employee();
   themdanhsach(person) {
     this.ListPerson.push(person);
   }
-  renderTable(selectorTbody) {
+  renderTable(selectorTbody, list = this.ListPerson) {
     let html = "";
-    for (let person of this.ListPerson) {
+    for (let person of list) {
       html += `
       <tr>
       <td>${person.id}</td>
@@ -43,35 +46,45 @@ export class List {
   }
   //lay
   layLocalStorage(table) {
+    let listLoccal;
     if (localStorage.getItem("DS")) {
-      let stringDS = localStorage.getItem("DS");
-      this.ListPerson = JSON.parse(stringDS) || [];
-      sortByName(this.ListPerson)
-    }
-    const arrPerSon = this.ListPerson; // tham chieu : có thể gán giá trị làm thay đổi được 
-    // arrPerSon[0].name = 'Huy'
-    // console.log(this.ListPerson)
-    if(!arrPerSon) return;
-    const Check = arrPerSon.map((element) => {
-      if(element.regency === 'Student') {
-        const son = new Student();
-        Object.assign(son,element)
-        return son;
-      }
-      if(element.regency === 'Employee') {
-        const emp = new Employee();
-        Object.assign(emp,element)
-        return emp;
-      }
-      if(element.regency === 'Customer') {
-        const cus = new Customer();
-        Object.assign(cus,element)
-        return cus;
-      }
-    })
+      listLoccal = JSON.parse(localStorage.getItem("DS") || []);
+      sortByName(listLoccal);
+    } else return;
+    this.ListPerson = listLoccal.map((element) => {
+      const person = this[element.regency]();
+      Object.assign(person, element);
+      return person;
+    });
+    // if (localStorage.getItem("DS")) {
+    //   let stringDS = localStorage.getItem("DS");
+    //   this.ListPerson = JSON.parse(stringDS) || [];
+    //   sortByName(this.ListPerson)
+    // }
+    // const arrPerSon = this.ListPerson; // tham chieu : có thể gán giá trị làm thay đổi được
+    // // arrPerSon[0].name = 'Huy'
+    // if(!arrPerSon) return;
+    // const Check = arrPerSon.map((element) => {
+    //   if(element.regency === 'Student') {
+    //     const son = new Student();
+    //     Object.assign(son,element)
+    //     return son;
+    //   }
+    //   if(element.regency === 'Employee') {
+    //     const emp = new Employee();
+    //     Object.assign(emp,element)
+    //     return emp;
+    //   }
+    //   if(element.regency === 'Customer') {
+    //     const cus = new Customer();
+    //     Object.assign(cus,element)
+    //     return cus;
+    //   }
+    // })
+
     // console.log(Check) // dựa trên mảng cũ của ListPerSon nhưng đã tạo thành 1 mảng mới và 2 mảng này tách biệt nhau
-    this.ListPerson = [...Check]; // gán giá trị mới cho mảng cũ và render ra theo giá trị mới
-    this.renderTable(table)
+    // this.ListPerson = [...Check]; // gán giá trị mới cho mảng cũ và render ra theo giá trị mới
+    this.renderTable(table);
   }
 
   //xoa
@@ -92,8 +105,8 @@ export class List {
     }
     return undefined;
   }
-   // update
-   capNhat(updatePerson) {
+  // update
+  capNhat(updatePerson) {
     for (let person of this.ListPerson) {
       if (person.id === updatePerson.id) {
         for (let key in person) {
@@ -125,10 +138,10 @@ export function resetForm() {
 }
 
 function getFullName(person) {
-  return person.name.trim().split(/\s+/).reverse().join(' ');
+  return person.name.trim().split(/\s+/).reverse().join(" ");
 }
 function sortByName(list) {
-  list.sort(function(a, b) {
+  list.sort(function (a, b) {
     var nameA = getFullName(a).toUpperCase(); // Chuyển họ tên thành chữ in hoa để so sánh
     var nameB = getFullName(b).toUpperCase();
     if (nameA < nameB) {
@@ -140,4 +153,3 @@ function sortByName(list) {
     return 0;
   });
 }
-
