@@ -1,35 +1,41 @@
 import { List, resetForm } from "../model/List.js";
 import { Person, Customer, Employee, Student } from "../model/PerSon.js";
-import { validPerson, validStudent, validEmployee, validCustomer} from "../until/validation.js";
+import {
+  validPerson,
+  validStudent,
+  validEmployee,
+  validCustomer,
+} from "../until/validation.js";
 
 const listPerson = [];
 let list = new List();
 list.layLocalStorage("#tBodylist"); // lấy
 list.renderTable("#tBodylist");
 document.getElementById("btnAdd").onclick = function () {
-  if(!validPerson()) {
+  var tagSelectValue = document.querySelector("#typeForm :checked").value;
+  if (!validPerson()) {
     return;
   }
   let person;
   if (tagSelectValue === "Student") {
     person = new Student();
-    if(!validStudent()) {
+    if (!validStudent()) {
       return;
     }
   } else if (tagSelectValue === "Employee") {
     person = new Employee();
-    if(!validEmployee()) {
+    if (!validEmployee()) {
       return;
     }
   } else if (tagSelectValue === "Customer") {
     person = new Customer();
-    if(!validCustomer()) {
+    if (!validCustomer()) {
       return;
     }
   } else {
     return;
   }
-  var tagSelectValue = document.querySelector("#typeForm :checked").value;
+
   person.regency = tagSelectValue;
   // let person = listPerson[tagSelectValue]
   const inputList = document.querySelectorAll(".modal-body input");
@@ -62,17 +68,20 @@ window.deletePerSon = function (id) {
   list.luuLocalStorage();
 };
 
-window.Sua = function(id) {
+window.Sua = function (id) {
   document.querySelector("#btnClick").click();
   document.getElementById("id").disabled = true;
   document.getElementById("btnAdd").disabled = true;
   document.getElementById("btnReset").disabled = "false";
   let sua = list.Sua(id);
-  var arrInput = document.querySelectorAll(".modal-body select , .modal-body input");
-  Object.keys(sua).forEach(key => {
+  var arrInput = document.querySelectorAll(
+    ".modal-body select , .modal-body input"
+  );
+  Object.keys(sua).forEach((key) => {
     const input = document.getElementById(key);
-    if (input) { // Kiểm tra xem có phần tử HTML tương ứng hay không
-      input.value = sua[key]; 
+    if (input) {
+      // Kiểm tra xem có phần tử HTML tương ứng hay không
+      input.value = sua[key];
     }
   });
   // Lấy giá trị của thuộc tính "regency"
@@ -86,12 +95,39 @@ window.Sua = function(id) {
       break;
     }
   }
-}
+};
 
 document.querySelector("#btnUpdate").onclick = function () {
   document.getElementById("id").disabled = "flase";
-  document.getElementById("btnAdd").disabled = "flase"; 
+  document.getElementById("btnAdd").disabled = "flase";
 
   resetForm();
-}
+};
+document.getElementById("btnReset").onclick = function () {
+  resetForm();
+};
 
+document.getElementById("Close").onclick = function () {
+  document.getElementById("btnAdd").removeAttribute("disabled");
+  document.getElementById("id").removeAttribute("disabled");
+  document.getElementById("btnReset").removeAttribute("disabled");
+  resetForm();
+  const input = document.querySelectorAll(".modal-body input");
+  input.forEach((element) => {
+    element.style.display = " block";
+  });
+  if (!validPerson() & !validStudent() & !validEmployee() & !validCustomer()) {
+    document.querySelector("#notiType").innerHTML = "";
+    document.querySelector("#notiName").innerHTML = "";
+    document.querySelector("#notiAddress").innerHTML = "";
+    document.querySelector("#notiEmail").innerHTML = "";
+    document.querySelector("#notiMath").innerHTML = "";
+    document.querySelector("#notiChemistry").innerHTML = "";
+    document.querySelector("#notiPhysics").innerHTML = "";
+    document.querySelector("#notiDayOfWork").innerHTML = "";
+    document.querySelector("#notiSalaryOneDay").innerHTML = "";
+    document.querySelector("#notiNameCompany").innerHTML = "";
+    document.querySelector("#notiInvoiceValue").innerHTML = "";
+    document.querySelector("#notiReview").innerHTML = "";
+  }
+};
