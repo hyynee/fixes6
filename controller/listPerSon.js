@@ -70,6 +70,7 @@ window.Sua = function (id) {
   document.querySelector("#btnClick").click();
   document.getElementById("id").disabled = true;
   document.getElementById("btnAdd").disabled = true;
+  document.getElementById("typeForm").disabled = true;
   // document.getElementById("btnReset").disabled = "false";
   document.getElementById("btnReset").removeAttribute("disabled");
   document.getElementById("btnUpdate").removeAttribute("disabled");

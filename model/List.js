@@ -107,15 +107,15 @@ export class List {
     return undefined;
   }
   // update
-  capNhat(updatePerson) {
-    for (let person of this.ListPerson) {
-      if (person.id === updatePerson.id) {
-        for (let key in person) {
-          person[key] = updatePerson[key];
-        }
-      }
-    }
-  }
+  // capNhat(updatePerson) {
+  //   for (let person of this.ListPerson) {
+  //     if (person.id === updatePerson.id) {
+  //       for (let key in person) {
+  //         person[key] = updatePerson[key];
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 // Hàm reset
