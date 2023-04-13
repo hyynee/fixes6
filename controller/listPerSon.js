@@ -354,6 +354,21 @@ document.getElementById("Close").onclick = function () {
   input.forEach((element) => {
     element.style.display = " block";
   });
+  document.querySelector("#notiName").classList.add("d-none");
+  document.querySelector("#notiAddress").classList.add("d-none");
+  document.querySelector("#notiID").classList.add("d-none");
+  document.querySelector("#notiEmail").classList.add("d-none");
+  document.querySelector("#notiMath").classList.add("d-none");
+  document.querySelector("#notiChemistry").classList.add("d-none");
+  document.querySelector("#notiPhysics").classList.add("d-none");
+  document.querySelector("#notiDayOfWork").classList.add("d-none");
+  document.querySelector("#notiSalaryOneDay").classList.add("d-none");
+  document.querySelector("#notiNameCompany").classList.add("d-none");
+  document.querySelector("#notiReview").classList.add("d-none");
+  document.querySelector("#notiInvoiceValue").classList.add("d-none");
+  if(!valid) {
+    return;
+  }
 };
 
 document.querySelector("#searchRegency").onchange = (event) => {
@@ -431,4 +446,5 @@ document.querySelector("#typeForm").onchange = (event) => {
         }
       });
   }
+  document.querySelector("#notiType").classList.add("d-none");
 };
