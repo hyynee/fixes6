@@ -1,37 +1,23 @@
 import { List, resetForm } from "../model/List.js";
 import { Person, Customer, Employee, Student } from "../model/PerSon.js";
-import {
-  validPerson,
-  validStudent,
-  validEmployee,
-  validCustomer,
-} from "../until/validation.js";
+import { Validation } from "../until/validation.js";
 
 const listPerson = [];
+var kiemTra = new Validation();
+
 let list = new List();
 list.layLocalStorage("#tBodylist"); // lấy
 list.renderTable("#tBodylist");
 document.getElementById("btnAdd").onclick = function () {
   var tagSelectValue = document.querySelector("#typeForm :checked").value;
-  if (!validPerson()) {
-    return;
-  }
+  valid = kiemTra.kiemtraRong("", "notiType", "Vui lòng chọn loại người dùng");
   let person;
   if (tagSelectValue === "Student") {
     person = new Student();
-    if (!validPerson() & !validStudent()) {
-      return;
-    }
   } else if (tagSelectValue === "Employee") {
     person = new Employee();
-    if (!validPerson() & !validEmployee()) {
-      return;
-    }
   } else if (tagSelectValue === "Customer") {
     person = new Customer();
-    if (!validPerson() & !validCustomer()) {
-      return;
-    }
   } else {
     return;
   }
@@ -50,6 +36,103 @@ document.getElementById("btnAdd").onclick = function () {
       person[property] = arrInput[index].value;
       // person[name] = arrInput[0].value
     }
+  }
+
+  var valid = true;
+  // kiểm tra rỗng
+  valid =
+    kiemTra.kiemtraRong(person.name, "notiName", "Không được bỏ trống!!!") &
+    kiemTra.kiemtraRong(
+      person.address,
+      "notiAddress",
+      "Không được bỏ trống!!!"
+    ) &
+    kiemTra.kiemtraRong(person.id, "notiID", "Không được bỏ trống!!!") &
+    kiemTra.kiemtraRong(person.email, "notiEmail", "Không được bỏ trống!!!");
+
+  // Kiểm tra ký tự
+  valid = valid & kiemTra.kiemTraKyTu(person.name, "notiName", "Name");
+  // email
+  valid = valid & kiemTra.kiemTraEmail(person.email, "notiEmail", "Email");
+  // ID
+  valid = valid & kiemTra.kiemTraSo(person.id, "notiID", "ID");
+  if (person.regency === "Student") {
+    valid =
+      valid &
+      kiemTra.kiemtraRong(person.math, "notiMath", "Không được bỏ trống!!!") &
+      kiemTra.kiemtraRong(
+        person.chemistry,
+        "notiChemistry",
+        "Không được bỏ trống!!!"
+      ) &
+      kiemTra.kiemtraRong(
+        person.physics,
+        "notiPhysics",
+        "Không được bỏ trống!!!"
+      );
+    valid =
+      valid &
+      kiemTra.kiemTraSo(person.math, "notiMath", "Math") &
+      kiemTra.kiemTraSo(person.chemistry, "notiChemistry", "Chemistry") &
+      kiemTra.kiemTraSo(person.physics, "notiPhysics", "Physics");
+    valid =
+      valid &
+      kiemTra.kiemTraGiaTri(person.math, "notiMath", "Math ", 0, 10) &
+      kiemTra.kiemTraGiaTri(
+        person.chemistry,
+        "notiChemistry",
+        "Chemistry",
+        0,
+        10
+      ) &
+      kiemTra.kiemTraGiaTri(person.physics, "notiPhysics", "Physics", 0, 10);
+  }
+  if (person.regency === "Employee") {
+    valid =
+      valid &
+      kiemTra.kiemtraRong(
+        person.dayOfWork,
+        "notiDayOfWork",
+        "Không được bỏ trống!!!"
+      ) &
+      kiemTra.kiemtraRong(
+        person.salaryOneDay,
+        "notiSalaryOneDay",
+        "Không được bỏ trống!!!"
+      );
+    valid =
+      valid &
+      kiemTra.kiemTraSo(person.dayOfWork, "notiDayOfWork", "Number") &
+      kiemTra.kiemTraSo(person.salaryOneDay, "notiSalaryOneDay", "Number");
+  }
+  if (person.regency === "Customer") {
+    valid =
+      valid &
+      kiemTra.kiemtraRong(
+        person.nameCompany,
+        "notiNameCompany",
+        "Không được bỏ trống!!!"
+      ) &
+      kiemTra.kiemtraRong(
+        person.review,
+        "notiReview",
+        "Không được bỏ trống!!!"
+      ) &
+      kiemTra.kiemtraRong(
+        person.invoiceValue,
+        "notiInvoiceValue",
+        "Không được bỏ trống!!!"
+      );
+    valid =
+      valid &
+      kiemTra.kiemTraKyTu(person.nameCompany, "notiNameCompany", "") &
+      kiemTra.kiemTraKyTu(person.review, "notiReview", "");
+    valid =
+      valid &
+      kiemTra.kiemTraSo(person.invoiceValue, "notiInvoiceValue", "Number");
+  }
+  if (!valid) {
+    return;
   }
   listPerson.push(person);
   // console.log(listPerson); // render
@@ -85,8 +168,24 @@ window.Sua = function (id) {
       input.value = sua[key];
     }
   });
-  // Lấy giá trị của thuộc tính "regency"
   const regency = sua.regency;
+  if (regency === "Student") {
+    document.querySelector("#studentForm").classList.remove("d-none");
+    document.querySelector("#employeeForm").classList.add("d-none");
+    document.querySelector("#customerForm").classList.add("d-none");
+  } else if (regency === "Employee") {
+    document.querySelector("#employeeForm").classList.remove("d-none");
+
+    document.querySelector("#studentForm").classList.add("d-none");
+    document.querySelector("#customerForm").classList.add("d-none");
+  } else {
+    document.querySelector("#customerForm").classList.remove("d-none");
+
+    document.querySelector("#studentForm").classList.add("d-none");
+    document.querySelector("#employeeForm").classList.add("d-none");
+  }
+  // Lấy giá trị của thuộc tính "regency"
+
   // Tìm vị trí của option có giá trị bằng với "regency"
   const select = document.getElementById("typeForm");
   const options = select.options;
@@ -105,6 +204,7 @@ document.querySelector("#btnUpdate").onclick = function () {
   const regencySelect = document.getElementById("typeForm");
   const id = document.querySelector("#id").value;
   const personEdit = list.ListPerson.find((element) => element.id === id);
+  // validation
   for (const property in personEdit) {
     const index = arrInput.findIndex((element) => {
       return element.id === property;
@@ -115,12 +215,130 @@ document.querySelector("#btnUpdate").onclick = function () {
   }
   personEdit.regency = regencySelect.value;
   console.log(personEdit);
+  let valid = true;
+
+  // kiểm tra rỗng
+  valid =
+    kiemTra.kiemtraRong(personEdit.name, "notiName", "Không được bỏ trống!!!") &
+    kiemTra.kiemtraRong(
+      personEdit.address,
+      "notiAddress",
+      "Không được bỏ trống!!!"
+    ) &
+    kiemTra.kiemtraRong(personEdit.id, "notiID", "Không được bỏ trống!!!") &
+    kiemTra.kiemtraRong(
+      personEdit.email,
+      "notiEmail",
+      "Không được bỏ trống!!!"
+    );
+
+  // Kiểm tra ký tự
+  valid = valid & kiemTra.kiemTraKyTu(personEdit.name, "notiName", "Name");
+  // email
+  valid = valid & kiemTra.kiemTraEmail(personEdit.email, "notiEmail", "Email");
+  // ID
+  valid =
+    valid &
+    kiemTra.kiemTraSo(personEdit.id, "notiID", "ID") &
+    kiemTra.kiemTraSo(personEdit.id, "notiID", "ID");
+  if (personEdit.regency === "Student") {
+    valid =
+      valid &
+      kiemTra.kiemtraRong(
+        personEdit.math,
+        "notiMath",
+        "Không được bỏ trống!!!"
+      ) &
+      kiemTra.kiemtraRong(
+        personEdit.chemistry,
+        "notiChemistry",
+        "Không được bỏ trống!!!"
+      ) &
+      kiemTra.kiemtraRong(
+        personEdit.physics,
+        "notiPhysics",
+        "Không được bỏ trống!!!"
+      );
+    valid =
+      valid &
+      kiemTra.kiemTraSo(personEdit.math, "notiMath", "Math") &
+      kiemTra.kiemTraSo(personEdit.chemistry, "notiChemistry", "Chemistry") &
+      kiemTra.kiemTraSo(personEdit.physics, "notiPhysics", "Physics");
+    valid =
+      valid &
+      kiemTra.kiemTraGiaTri(personEdit.math, "notiMath", "Math ", 0, 10) &
+      kiemTra.kiemTraGiaTri(
+        personEdit.chemistry,
+        "notiChemistry",
+        "Chemistry",
+        0,
+        10
+      ) &
+      kiemTra.kiemTraGiaTri(
+        personEdit.physics,
+        "notiPhysics",
+        "Physics",
+        0,
+        10
+      );
+  }
+  if (personEdit.regency === "Employee") {
+    valid =
+      valid &
+      kiemTra.kiemtraRong(
+        personEdit.dayOfWork,
+        "notiDayOfWork",
+        "Không được bỏ trống!!!"
+      ) &
+      kiemTra.kiemtraRong(
+        personEdit.salaryOneDay,
+        "notiSalaryOneDay",
+        "Không được bỏ trống!!!"
+      );
+    valid =
+      valid &
+      kiemTra.kiemTraSo(personEdit.dayOfWork, "notiDayOfWork", "Number") &
+      kiemTra.kiemTraSo(personEdit.salaryOneDay, "notiSalaryOneDay", "Number");
+  }
+  if (personEdit.regency === "Customer") {
+    valid =
+      valid &
+      kiemTra.kiemtraRong(
+        personEdit.nameCompany,
+        "notiNameCompany",
+        "Không được bỏ trống!!!"
+      ) &
+      kiemTra.kiemtraRong(
+        personEdit.review,
+        "notiReview",
+        "Không được bỏ trống!!!"
+      ) &
+      kiemTra.kiemtraRong(
+        personEdit.invoiceValue,
+        "notiInvoiceValue",
+        "Không được bỏ trống!!!"
+      );
+    valid =
+      valid &
+      kiemTra.kiemTraKyTu(personEdit.nameCompany, "notiNameCompany", "") &
+      kiemTra.kiemTraKyTu(personEdit.review, "notiReview", "");
+    valid =
+      valid &
+      kiemTra.kiemTraSo(personEdit.invoiceValue, "notiInvoiceValue", "Number");
+  }
+  if (!valid) {
+    return;
+  }
+
   list.renderTable("#tBodylist");
   list.luuLocalStorage();
 };
 
 document.getElementById("btnClick").onclick = function () {
   document.getElementById("btnUpdate").disabled = "flase";
+  document.querySelector("#studentForm").classList.remove("d-none");
+  document.querySelector("#employeeForm").classList.remove("d-none");
+  document.querySelector("#customerForm").classList.remove("d-none");
 };
 document.getElementById("btnReset").onclick = function () {
   resetForm();
@@ -130,25 +348,12 @@ document.getElementById("Close").onclick = function () {
   document.getElementById("btnAdd").removeAttribute("disabled");
   document.getElementById("id").removeAttribute("disabled");
   document.getElementById("btnReset").removeAttribute("disabled");
+  document.getElementById("typeForm").removeAttribute("disabled");
   resetForm();
   const input = document.querySelectorAll(".modal-body input");
   input.forEach((element) => {
     element.style.display = " block";
   });
-  if (!validPerson() & !validStudent() & !validEmployee() & !validCustomer()) {
-    document.querySelector("#notiType").innerHTML = "";
-    document.querySelector("#notiName").innerHTML = "";
-    document.querySelector("#notiAddress").innerHTML = "";
-    document.querySelector("#notiEmail").innerHTML = "";
-    document.querySelector("#notiMath").innerHTML = "";
-    document.querySelector("#notiChemistry").innerHTML = "";
-    document.querySelector("#notiPhysics").innerHTML = "";
-    document.querySelector("#notiDayOfWork").innerHTML = "";
-    document.querySelector("#notiSalaryOneDay").innerHTML = "";
-    document.querySelector("#notiNameCompany").innerHTML = "";
-    document.querySelector("#notiInvoiceValue").innerHTML = "";
-    document.querySelector("#notiReview").innerHTML = "";
-  }
 };
 
 document.querySelector("#searchRegency").onchange = (event) => {
