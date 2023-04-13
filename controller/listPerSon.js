@@ -354,6 +354,7 @@ document.getElementById("Close").onclick = function () {
   input.forEach((element) => {
     element.style.display = " block";
   });
+  document.getElementById("notiType").classList.remove("d-none");
   document.querySelector("#notiName").classList.add("d-none");
   document.querySelector("#notiAddress").classList.add("d-none");
   document.querySelector("#notiID").classList.add("d-none");
